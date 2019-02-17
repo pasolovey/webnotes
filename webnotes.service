@@ -1,0 +1,27 @@
+[Unit]
+Description=Webnotes
+After=syslog.target
+After=network.target
+After=nginx.service
+Wants=nginx.service
+
+[Service]
+Type=simple
+User=ubuntu
+
+WorkingDirectory=/home/ubuntu/webnotes/bin
+SyslogIdentifier=webnotes
+
+TimeoutSec=300
+TimeoutStopSec=10
+Restart=always
+RestartSec=10
+
+ExecStart=/usr/bin/dotnet run /home/ubuntu/webnotes/bin
+
+Environment=ASPNETCORE_ENVIRONMENT=Development
+Environment=ASPNETCORE_URLS=http://localhost:7000
+Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
+
+[Install]
+WantedBy=multi-user.target
